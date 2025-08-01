@@ -1,10 +1,10 @@
 <?php
 /**
- * Author: Emmanuel Santana
- * Author URI: https://github.com/hdsemmanuelsantana/HDS-Profile-Manager
+ * Plugin Name: HDS Profile Manager
  * Description: Manage and display employee profiles via shortcode, grouped by tab and row.
  * Version: 1.0.0
- * Author: HDS Web Team
+ * Author: Emmanuel Santana
+ * Author URI: https://github.com/hdsemmanuelsantana/HDS-Profile-Manager
  */
 
 // Register Custom Post Type
@@ -23,7 +23,6 @@ function hds_register_profile_post_type() {
 }
 add_action('init', 'hds_register_profile_post_type');
 
-// Add custom meta boxes
 function hds_add_profile_meta_boxes() {
     add_meta_box('hds_profile_meta', 'Profile Details', 'hds_render_profile_meta_box', 'hds_profile', 'normal', 'default');
 }
@@ -31,7 +30,6 @@ add_action('add_meta_boxes', 'hds_add_profile_meta_boxes');
 
 function hds_render_profile_meta_box($post) {
     $fields = [
-        'image_url' => 'Image URL',
         'job_titles' => 'Job Titles (comma-separated)',
         'email' => 'Email',
         'phone' => 'Phone Number',
@@ -46,7 +44,7 @@ function hds_render_profile_meta_box($post) {
 }
 
 function hds_save_profile_meta($post_id) {
-    $fields = ['image_url', 'job_titles', 'email', 'phone', 'tabs', 'tab_rows'];
+    $fields = ['job_titles', 'email', 'phone', 'tabs', 'tab_rows'];
     foreach ($fields as $field) {
         if (isset($_POST[$field])) {
             update_post_meta($post_id, $field, sanitize_text_field($_POST[$field]));
@@ -55,13 +53,9 @@ function hds_save_profile_meta($post_id) {
 }
 add_action('save_post', 'hds_save_profile_meta');
 
-// Shortcode to display profiles by tab
 function hds_profiles_shortcode($atts) {
     $a = shortcode_atts(['tab' => ''], $atts);
-    $query = new WP_Query([
-        'post_type' => 'hds_profile',
-        'posts_per_page' => -1
-    ]);
+    $query = new WP_Query(['post_type' => 'hds_profile', 'posts_per_page' => -1]);
 
     $profiles_by_row = [];
     ob_start();
@@ -79,7 +73,7 @@ function hds_profiles_shortcode($atts) {
     foreach ($profiles_by_row as $row => $profile_ids) {
         echo '<div class="profile-row">';
         foreach ($profile_ids as $pid) {
-            $image = esc_url(get_post_meta($pid, 'image_url', true));
+            $image = get_the_post_thumbnail_url($pid, 'full');
             $name = get_the_title($pid);
             $job_titles = explode(',', get_post_meta($pid, 'job_titles', true));
             $email = esc_html(get_post_meta($pid, 'email', true));
@@ -110,12 +104,10 @@ function hds_profiles_shortcode($atts) {
 }
 add_shortcode('hds_profiles', 'hds_profiles_shortcode');
 
-// Inline CSS and JS
 function hds_profile_styles_scripts() {
     echo '<style>';
-    include plugin_dir_path(__FILE__) . 'css/hds-profiles.css';
+    @readfile(plugin_dir_path(__FILE__) . 'css/hds-profiles.css');
     echo '</style>';
-
     echo '<script>
     document.addEventListener("DOMContentLoaded", function () {
         const bios = document.querySelectorAll(".bio-icon");
