@@ -1,0 +1,151 @@
+.profile-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0px; /* Optional — or use margin on profile below */
+}
+
+.profile {
+  max-width: 310px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0px;
+  margin-bottom: 200px;
+  text-align: center;
+}
+
+
+  /* Profile heading styles */
+.profile h3 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;   /* Semibold */
+    text-align: center;
+    text-transform: uppercase;   /* All caps */
+    font-size: 18px;
+    line-height: 1.0em;
+    letter-spacing: 2px;
+    color: #ee9327;
+    margin: 0 0 0 0;
+  }
+
+.profile h4 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;   /* Semibold */
+    font-size: 14px;
+    line-height: 1.0em;
+    color: #333333;
+    margin: 0 0 0 0;
+  }
+
+.profile-image {
+    width: 240px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    position: relative;
+    z-index: 100;
+    box-shadow: 2px 6px 20px rgba(0, 0, 0, 0.3);
+    border-radius: 50%;
+    transition: transform 0.5s ease;
+  }
+  
+/* Scale the image up when hovered */
+.profile:hover img {
+  transform: scale(1.05) !important;
+  
+}
+
+ .contact-info {
+    margin: 0px 0px 10px 0px;
+   	padding: 10px 0px 10px 0px;
+    line-height: 1.7;
+    font-size: 16px;
+   
+  
+  }
+
+ .contact-info a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+/* Bio icon container and wrapper */
+.bio-icon {
+  margin-top: -175px;
+  padding-bottom: 10px;
+  transform: translateX(30px) translateY(30px);
+  position: relative;
+}
+
+
+ .bio-icon .et-icon-wrapper {
+    font-size: 1.2rem;
+    /* display: inline-block; conflicts with .et-icon-wrapper display: inline-flex below */
+  }
+
+ .et-icon-wrapper {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 55px;
+    height: 55px;
+    background-color: #003f7c; /* dark blue */
+    border-radius: 50%;
+  }
+
+ .et-icon-wrapper .et-pb-icon {
+    font-size: 48px;
+    color: white;
+    line-height: 1;
+    margin-left: -4px;
+    margin-top: -3px;
+  }
+
+ .hover-trigger {
+    position: relative;
+    z-index: 500; /* Still needed */
+    display: block;
+    cursor: pointer;
+    width: 60px;
+  }
+
+/* Flyout container */
+ .flyout-container {
+    position: absolute;
+    top: 80%;
+    left: -65px;
+    z-index: 9999 !important;
+    background: radial-gradient(circle, white 100%, rgba(12, 113, 195, 0.19) 100%);
+    border: 1px solid #ccc;
+    margin: 10px;
+    /* margin-top: 15px; (conflicts with margin: 10px above) */
+    width: 350px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.7s ease, visibility 0.3s ease;
+    pointer-events: none;
+  }
+
+ .flyout-header {
+    background-color: #003f7c; /* Solid blue bar */
+    height: 8px;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+  }
+
+ .flyout-content {
+    padding: 15px;
+    color: #333;
+  }
+
+ .flyout-content p {
+    margin-bottom: 1em;
+    text-align: left;
+  }
+
+ .hover-trigger:hover .flyout-container {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
